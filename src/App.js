@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
   const nayoks = ['Anwar', 'Jafor', 'Alomgir', 'Salman Sah', 'Sonil'];
@@ -23,6 +24,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Counter></Counter>
+        <Users></Users>
         <ul>
           {
             nayoks.map(nayok => <li>{nayok}</li>)
@@ -52,6 +55,41 @@ function App() {
       </header>
     </div>
   );
+}
+
+// data load from api
+function Users(){
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data))
+  })
+  return(
+    <div>
+      <h3>Dynamic Users: {users.length}</h3>
+      <ul>
+        {
+          users.map(user => <li>{user.phone}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
+// counter section
+function Counter(){
+  const [count, setCount] = useState(10);
+  const handleIncrease = () => setCount(count + 1);
+  const handleDecrease = () => setCount(count - 1);
+  
+  return (
+    <div>
+      <h1>Count: {count} </h1>
+      <button onClick={handleDecrease}>Decrease!</button>
+      <button onClick={handleIncrease}>Increase!</button>
+    </div>
+  )
 }
 
 // Products Section
